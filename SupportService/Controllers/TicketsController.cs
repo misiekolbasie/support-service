@@ -39,7 +39,7 @@ namespace SupportService.Controllers
         }
 
         [HttpPost("ChangeStatus")]
-        public async Task<IActionResult> ChangeTicketStatus() // смена статуса тикета
+        public async Task<IActionResult> ChangeTicketStatus(ChangeStatusRequest changeStatusRequest) // смена статуса тикета
         {
             return Ok();
         }
