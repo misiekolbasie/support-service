@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using SupportService.ApiDto;
 
 namespace SupportService.Controllers
 {
@@ -27,7 +28,7 @@ namespace SupportService.Controllers
         }
 
         [HttpPost("Send")]
-        public async Task<IActionResult> SendMessage()
+        public async Task<IActionResult> SendMessage(SendMessageRequest sendMessageRequest)
         {
             return Ok();
         }
