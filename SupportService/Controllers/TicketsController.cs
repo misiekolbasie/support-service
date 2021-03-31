@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging.Abstractions;
+using SupportService.ApiDto;
 
 namespace SupportService.Controllers
 {
@@ -32,7 +33,7 @@ namespace SupportService.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> CreateTicket() //создаем Тикет
+        public async Task<IActionResult> CreateTicket(CreateTicketRequest createTicketRequest) //создаем Тикет
         {
             return Ok();
         }
