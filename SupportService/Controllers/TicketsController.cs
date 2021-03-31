@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 namespace SupportService.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class TicketsController : ControllerBase
     {
         private readonly ILogger<TicketsController> _logger;
@@ -17,6 +17,30 @@ namespace SupportService.Controllers
         public TicketsController(ILogger<TicketsController> logger)
         {
             _logger = logger ?? new NullLogger<TicketsController>();
+        }
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetTickets() // Смотреть все тикеты
+        {
+            return Ok("ALL TICKETS");
+        }
+
+        [HttpGet("GetByUserId")]
+        public async Task<IActionResult> GetTicketsByUserId(int userId) // Просмотр тикетов пользователя
+        {
+            return Ok();
+        }
+
+        [HttpPost("Create")]
+        public async Task<IActionResult> CreateTicket() //создаем Тикет
+        {
+            return Ok();
+        }
+
+        [HttpPost("ChangeStatus")]
+        public async Task<IActionResult> ChangeTicketStatus() // смена статуса тикета
+        {
+            return Ok();
         }
     }
 }
