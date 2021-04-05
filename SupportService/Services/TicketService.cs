@@ -15,12 +15,15 @@ namespace SupportService.Services
         private readonly ILogger<TicketService> _logger;
         private readonly ITicketRepository _ticketRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IMessageRepository _messageRepository;
         
 
-        public TicketService(ITicketRepository ticketRepository, IUserRepository userRepository, ILogger<TicketService> logger)
+        public TicketService(ITicketRepository ticketRepository, IUserRepository userRepository, IMessageRepository messageRepository,
+            ILogger<TicketService> logger)
         {
             _ticketRepository = ticketRepository;
             _userRepository = userRepository;
+            _messageRepository = messageRepository;
             _logger = logger ?? new NullLogger<TicketService>();
         }
 
@@ -32,17 +35,29 @@ namespace SupportService.Services
                 throw new Exception("Пользователя не существует!");
             }
             
+            DateTime createDate = DateTime.Now;
+            
             Ticket newTicket = new Ticket()
             {
                 AutorId = createTicketRequest.UserId,
                 Category = createTicketRequest.Categories,
-                CreateDate = DateTime.Now,
-                LastUpdate = DateTime.Now,
+                CreateDate = createDate,
+                LastUpdate = createDate,
                 Status = Statuses.Open,
                 Theme = createTicketRequest.Theme
             };
-            int result = _ticketRepository.CreateTicket(newTicket);
-            return result;
+            int newTicketId = _ticketRepository.CreateTicket(newTicket);
+            
+            Message newMessage = new Message()
+            {
+                AutorId = createTicketRequest.UserId,
+                Text = createTicketRequest.Message,
+                CreateDate = createDate,
+                TicketId = newTicketId
+            };
+            int newMessageId = _messageRepository.CreateMessage(newMessage);
+            
+            return newTicketId;
         }
     }
 }

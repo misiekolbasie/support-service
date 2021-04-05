@@ -35,6 +35,7 @@ namespace SupportService
             services.AddTransient<ITicketService, TicketService>();
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<ITicketRepository, TicketRepository>();
+            services.AddSingleton<IMessageRepository, MessageRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
