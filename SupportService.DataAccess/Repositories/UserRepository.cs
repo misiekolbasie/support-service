@@ -31,6 +31,15 @@ namespace SupportService.DataAccess.Repositories
             return maxCount;
         }
 
+        public User GetUserById(int id)
+        {
+            if (_usersDB.TryGetValue(id,out User user))
+            {
+                return user;
+            }
+            return null;
+        }
+
         private bool ValidateUser(User user)
         {
             foreach (var userDB  in _usersDB)

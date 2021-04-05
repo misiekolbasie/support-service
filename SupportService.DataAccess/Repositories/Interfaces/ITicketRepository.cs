@@ -2,10 +2,8 @@ using SupportService.Models.Models;
 
 namespace SupportService.DataAccess.Repositories.Interfaces
 {
-    public interface IUserRepository
+    public interface ITicketRepository
     {
-        int CreateUser(User user);
-
-        User GetUserById(int id);
+        int CreateTicket(Ticket ticket);
     }
 }
