@@ -32,7 +32,9 @@ namespace SupportService
             services.AddControllers();
             services.AddSwaggerGen();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ITicketService, TicketService>();
             services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<ITicketRepository, TicketRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
