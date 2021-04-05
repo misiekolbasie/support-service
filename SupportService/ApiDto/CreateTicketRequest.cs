@@ -13,9 +13,6 @@ namespace SupportService.ApiDto
         
         public string Message { get; set; }
         public Categories Categories { get; set; }
-
-        public DateTime CreateDate { get; set; }
-
         public int UserId { get; set; }
     }
 }
