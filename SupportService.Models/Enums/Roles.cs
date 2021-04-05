@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+
 namespace SupportService.Models.Enums
 {
-    public enum Categories
+    public enum Roles
     {
-        Question,
-        Trouble
+        User,
+        Admin
     }
 }
