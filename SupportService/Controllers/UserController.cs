@@ -23,7 +23,7 @@ namespace SupportService.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> UserName(CreateUserRequest createUserRequest)
+        public async Task<IActionResult> CreateUser(CreateUserRequest createUserRequest)
         {
             return Ok();
         }
