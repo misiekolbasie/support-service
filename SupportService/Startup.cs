@@ -10,6 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SupportService.DataAccess.Repositories;
+using SupportService.DataAccess.Repositories.Interfaces;
+using SupportService.Services;
+using SupportService.Services.Interfaces;
 
 namespace SupportService
 {
@@ -27,6 +31,8 @@ namespace SupportService
         {
             services.AddControllers();
             services.AddSwaggerGen();
+            services.AddTransient<IUserService, UserService>();
+            services.AddSingleton<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

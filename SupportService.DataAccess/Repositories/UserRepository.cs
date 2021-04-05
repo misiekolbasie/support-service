@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
 using SupportService.DataAccess.Repositories.Interfaces;
 using SupportService.Models.Models;
@@ -8,7 +11,7 @@ namespace SupportService.DataAccess.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly ILogger<UserRepository> _logger;
-        private readonly Dictionary<int, User> _userDB = new Dictionary<int, User>();
+        private readonly Dictionary<int, User> _usersDB = new Dictionary<int, User>();
         
         
         public UserRepository(ILogger<UserRepository> logger)
@@ -18,9 +21,26 @@ namespace SupportService.DataAccess.Repositories
 
         public int CreateUser(User user)
         {
-            int maxCount = _userDB.Count;
-            _userDB.Add(maxCount, user);
+            if (!ValidateUser(user))
+            {
+               throw new Exception("Такой пользователь уже существует!");
+            }
+            
+            int maxCount = _usersDB.Count;
+            _usersDB.Add(maxCount, user);
             return maxCount;
+        }
+
+        private bool ValidateUser(User user)
+        {
+            foreach (var userDB  in _usersDB)
+            {
+                if (user.Name == userDB.Value.Name)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

@@ -29,7 +29,7 @@ namespace SupportService.Controllers
         public async Task<IActionResult> CreateUser(CreateUserRequest createUserRequest)
         {
             int result = _userService.CreateUser(createUserRequest);
-            return Ok();
+            return Ok(result);
         }
 
     }
