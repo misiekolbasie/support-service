@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging.Abstractions;
 using SupportService.ApiDto;
+using SupportService.Services.Interfaces;
 
 namespace SupportService.Controllers
 {
@@ -14,9 +15,10 @@ namespace SupportService.Controllers
     public class TicketsController : ControllerBase
     {
         private readonly ILogger<TicketsController> _logger;
-
-        public TicketsController(ILogger<TicketsController> logger)
+        private readonly ITicketService _ticketService;
+        public TicketsController(ITicketService ticketService, ILogger<TicketsController> logger)
         {
+            _ticketService = ticketService;
             _logger = logger ?? new NullLogger<TicketsController>();
         }
 
@@ -35,7 +37,8 @@ namespace SupportService.Controllers
         [HttpPost("Create")]
         public async Task<IActionResult> CreateTicket(CreateTicketRequest createTicketRequest) //создаем Тикет
         {
-            return Ok();
+            int result = _ticketService.CreateTicket(createTicketRequest);
+            return Ok(result);
         }
 
         [HttpPost("ChangeStatus")]

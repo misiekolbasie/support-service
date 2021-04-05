@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SupportService.DataAccess\SupportService.DataAccess.csproj" />
     <ProjectReference Include="..\SupportService.Models\SupportService.Models.csproj" />
   </ItemGroup>
 

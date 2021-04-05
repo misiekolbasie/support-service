@@ -12,9 +12,6 @@ namespace SupportService.ApiDto
 
         public string MessageText { get; set; }
 
-        public DateTime MessageDate { get; set; }
-
         public int AutorId { get; set; }
-
     }
 }

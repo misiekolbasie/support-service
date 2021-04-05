@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupportService", "SupportSe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupportService.Models", "SupportService.Models\SupportService.Models.csproj", "{460B440F-8A39-4C91-96DE-535B87114F27}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupportService.DataAccess", "SupportService.DataAccess\SupportService.DataAccess.csproj", "{7FC9E1AD-1ADF-4D51-9405-C050BA1E4001}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{460B440F-8A39-4C91-96DE-535B87114F27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{460B440F-8A39-4C91-96DE-535B87114F27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{460B440F-8A39-4C91-96DE-535B87114F27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FC9E1AD-1ADF-4D51-9405-C050BA1E4001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FC9E1AD-1ADF-4D51-9405-C050BA1E4001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FC9E1AD-1ADF-4D51-9405-C050BA1E4001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FC9E1AD-1ADF-4D51-9405-C050BA1E4001}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

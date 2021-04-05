@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using SupportService.ApiDto;
 using SupportService.Models.Enums;
+using SupportService.Services.Interfaces;
 
 namespace SupportService.Controllers
 {
@@ -16,16 +17,19 @@ namespace SupportService.Controllers
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
+        private readonly IUserService _userService;
 
-        public UserController(ILogger<UserController> logger)
+        public UserController(IUserService service, ILogger<UserController> logger)
         {
+            _userService = service;
             _logger = logger ?? new NullLogger<UserController>();
         }
 
         [HttpPost("Create")]
         public async Task<IActionResult> CreateUser(CreateUserRequest createUserRequest)
         {
-            return Ok();
+            int result = _userService.CreateUser(createUserRequest);
+            return Ok(result);
         }
 
     }
