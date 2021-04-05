@@ -10,6 +10,6 @@ namespace SupportService.ApiDto
     {
         public string Name { get; set; }
 
-        public Roles Roles { get; set; }
+        public Roles Role { get; set; }
     }
 }
