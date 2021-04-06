@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -58,6 +59,11 @@ namespace SupportService.Services
             int newMessageId = _messageRepository.CreateMessage(newMessage);
             
             return newTicketId;
+        }
+
+        public IEnumerable<Ticket> GetTickets()
+        {
+            return _ticketRepository.GetAllTickets();
         }
     }
 }
