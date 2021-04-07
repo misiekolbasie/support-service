@@ -34,7 +34,8 @@ namespace SupportService.Controllers
         [HttpGet("GetByUserId")]
         public async Task<IActionResult> GetTicketsByUserId(int userId) // Просмотр тикетов пользователя
         {
-            return Ok();
+            IEnumerable<Ticket> tickets = _ticketService.GetTicketsByUserId();
+            return Ok(tickets);
         }
 
         [HttpPost("Create")]
