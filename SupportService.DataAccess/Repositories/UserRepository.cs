@@ -11,7 +11,7 @@ namespace SupportService.DataAccess.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly ILogger<UserRepository> _logger;
-        private readonly Dictionary<int, User> _usersDB = new Dictionary<int, User>();
+        private readonly List<User> _usersDB = new List<User>();
         
         
         public UserRepository(ILogger<UserRepository> logger)
@@ -28,15 +28,19 @@ namespace SupportService.DataAccess.Repositories
             
             int maxCount = _usersDB.Count;
             user.Id = maxCount;
-            _usersDB.Add(maxCount, user);
+            _usersDB.Add(user);
             return maxCount;
         }
 
         public User GetUserById(int id)
         {
-            if (_usersDB.TryGetValue(id,out User user))
+            //пройти по коллекции юзеров и вернуть юзера по ид
+            foreach (var user in _usersDB)
             {
-                return user;
+                if (user.Id == id)
+                {
+                    return user;
+                }   
             }
             return null;
         }
@@ -45,7 +49,7 @@ namespace SupportService.DataAccess.Repositories
         {
             foreach (var userDB  in _usersDB)
             {
-                if (user.Name == userDB.Value.Name)
+                if (user.Name == userDB.Name)
                 {
                     return false;
                 }

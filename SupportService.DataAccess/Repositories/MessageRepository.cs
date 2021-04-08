@@ -9,7 +9,7 @@ namespace SupportService.DataAccess.Repositories
     public class MessageRepository : IMessageRepository
     {
         private readonly ILogger<MessageRepository> _logger;
-        private readonly Dictionary<int, Message> _messagesDb= new Dictionary<int, Message>();
+        private readonly List<Message>_messagesDb= new List<Message>();
 
         public MessageRepository(ILogger<MessageRepository> logger)
         {
@@ -19,7 +19,7 @@ namespace SupportService.DataAccess.Repositories
         {
             int maxValue = _messagesDb.Count;
             message.Id = maxValue;
-            _messagesDb.Add(maxValue, message);
+            _messagesDb.Add(message);
             return maxValue;
         }
     }

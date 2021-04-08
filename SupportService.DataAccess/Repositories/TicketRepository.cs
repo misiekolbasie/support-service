@@ -13,7 +13,7 @@ namespace SupportService.DataAccess.Repositories
     public class TicketRepository : ITicketRepository
     {
         private readonly ILogger<TicketRepository> _logger;
-        private readonly Dictionary<int, Ticket> _ticketsDb = new Dictionary<int, Ticket>();
+        private readonly List<Ticket>_ticketsDb = new List<Ticket>();
 
         public TicketRepository(ILogger<TicketRepository> logger)
         {
@@ -23,13 +23,13 @@ namespace SupportService.DataAccess.Repositories
         {
             int maxCount = _ticketsDb.Count;
             ticket.Id = maxCount;
-            _ticketsDb.Add(maxCount, ticket);
+            _ticketsDb.Add(ticket);
             return maxCount;
         }
 
         public IEnumerable<Ticket> GetAllTickets()
         {
-            var tickets = _ticketsDb.Values.ToList();
+            var tickets = _ticketsDb.ToList();
             return tickets;
         }
 
@@ -38,9 +38,8 @@ namespace SupportService.DataAccess.Repositories
             // создать пустой лист
             List<Ticket> userTickets = new List<Ticket>();
             // обратиться в коллекцию тикетов, найти автор ид
-            foreach (var ticketdb in _ticketsDb)
+            foreach (var ticket in _ticketsDb)
             {
-                Ticket ticket = ticketdb.Value;
                 // если ид юзера равно ид автора записать их в пустой лист
                 if (ticket.AutorId == userId)
                 {
@@ -52,23 +51,3 @@ namespace SupportService.DataAccess.Repositories
         }
     }
 }
-
-//var tickets = _ticketsDb.Values.ToList();
-// var users = _usersDB.Values.ToList();
-// var ticketsByUserid = new List<Ticket>();
-// foreach (var result in _ticketsDb)
-// {
-// result
-//   if (Enumerable.SequenceEqual(_ticketsDb.Values, _usersDB.Values)
-//  //  else
-// label1.Text = "-1";
-//}
-
-
-
-//foreach (var ticketFromDB in _ticketsDb)
-//{
-//ticketss.Add(ticketFromDB.Value);  
-//}
-// var ticketss = _ticketsDb.Select(ticketFromDB => ticketFromDB.Value).ToList();
-//return tickets.Select(entity => _ticketsDb.Values(tickets)).ToList();
