@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging.Abstractions;
 using SupportService.ApiDto;
+using SupportService.DataAccess.Repositories.Interfaces;
+using SupportService.Models.Models;
 using SupportService.Services.Interfaces;
 
 namespace SupportService.Controllers
@@ -23,15 +25,17 @@ namespace SupportService.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetTickets() // Смотреть все тикеты
+        public async Task<IActionResult> GetTicket() // Смотреть все тикеты
         {
-            return Ok("ALL TICKETS");
+            IEnumerable<Ticket> tickets = _ticketService.GetTickets();
+            return Ok(tickets);
         }
 
         [HttpGet("GetByUserId")]
         public async Task<IActionResult> GetTicketsByUserId(int userId) // Просмотр тикетов пользователя
         {
-            return Ok();
+            IEnumerable<Ticket> tickets = _ticketService.GetTicketsByUserId(userId);
+            return Ok(tickets);
         }
 
         [HttpPost("Create")]
@@ -44,6 +48,7 @@ namespace SupportService.Controllers
         [HttpPost("ChangeStatus")]
         public async Task<IActionResult> ChangeTicketStatus(ChangeStatusRequest changeStatusRequest) // смена статуса тикета
         {
+            _ticketService.ChangeStatus(changeStatusRequest);
             return Ok();
         }
     }
