@@ -22,6 +22,7 @@ namespace SupportService.DataAccess.Repositories
         public int CreateTicket(Ticket ticket)
         {
             int maxCount = _ticketsDb.Count;
+            ticket.Id = maxCount;
             _ticketsDb.Add(maxCount, ticket);
             return maxCount;
         }

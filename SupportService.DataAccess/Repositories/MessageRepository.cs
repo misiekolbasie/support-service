@@ -18,6 +18,7 @@ namespace SupportService.DataAccess.Repositories
         public int CreateMessage(Message message)
         {
             int maxValue = _messagesDb.Count;
+            message.Id = maxValue;
             _messagesDb.Add(maxValue, message);
             return maxValue;
         }

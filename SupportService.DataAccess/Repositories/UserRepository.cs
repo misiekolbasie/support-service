@@ -27,6 +27,7 @@ namespace SupportService.DataAccess.Repositories
             }
             
             int maxCount = _usersDB.Count;
+            user.Id = maxCount;
             _usersDB.Add(maxCount, user);
             return maxCount;
         }
