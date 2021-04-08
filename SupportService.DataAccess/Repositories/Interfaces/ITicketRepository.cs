@@ -7,7 +7,6 @@ namespace SupportService.DataAccess.Repositories.Interfaces
     {
         int CreateTicket(Ticket ticket);
         IEnumerable<Ticket> GetAllTickets();
-
-        IEnumerable<Ticket> GetTicketByUserId();
+        IEnumerable<Ticket> GetTicketsByUserId(int userId);
     }
 }

@@ -14,7 +14,6 @@ namespace SupportService.DataAccess.Repositories
     {
         private readonly ILogger<TicketRepository> _logger;
         private readonly Dictionary<int, Ticket> _ticketsDb = new Dictionary<int, Ticket>();
-        private readonly Dictionary<int, User> _usersDB = new Dictionary<int, User>();
 
         public TicketRepository(ILogger<TicketRepository> logger)
         {
@@ -33,18 +32,22 @@ namespace SupportService.DataAccess.Repositories
             return tickets;
         }
 
-        public IEnumerable<Ticket> GetTicketByUserId()
-         {
-             var ticketsByUserId = new List<Ticket>();
-
-             foreach (var id in _ticketsDb)
+        public IEnumerable<Ticket> GetTicketsByUserId(int userId)
+        {
+            // создать пустой лист
+            List<Ticket> userTickets = new List<Ticket>();
+            // обратиться в коллекцию тикетов, найти автор ид
+            foreach (var ticketdb in _ticketsDb)
+            {
+                Ticket ticket = ticketdb.Value;
+                // если ид юзера равно ид автора записать их в пустой лист
+                if (ticket.AutorId == userId)
                 {
-                    if (_usersDB.Any(c => c.Value.Id == id.Value.AutorId))
-                    {
-                        ticketsByUserId.Add(id);
-                    }
+                    userTickets.Add(ticket);
                 }
-            return ticketsByUserId;
+            }
+            return userTickets;
+            //вернуть лист
         }
     }
 }

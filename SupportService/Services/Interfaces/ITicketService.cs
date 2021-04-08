@@ -9,6 +9,6 @@ namespace SupportService.Services.Interfaces
         int CreateTicket(CreateTicketRequest createTicketRequest);
 
         IEnumerable<Ticket> GetTickets();
-        IEnumerable<Ticket> GetTicketsByUserId();
+        IEnumerable<Ticket> GetTicketsByUserId(int userId);
     }
 }

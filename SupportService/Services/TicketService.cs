@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using SupportService.ApiDto;
+using SupportService.DataAccess.Repositories;
 using SupportService.DataAccess.Repositories.Interfaces;
 using SupportService.Models.Enums;
 using SupportService.Models.Models;
@@ -17,7 +18,7 @@ namespace SupportService.Services
         private readonly ITicketRepository _ticketRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMessageRepository _messageRepository;
-        
+
 
         public TicketService(ITicketRepository ticketRepository, IUserRepository userRepository, IMessageRepository messageRepository,
             ILogger<TicketService> logger)
@@ -64,6 +65,20 @@ namespace SupportService.Services
         public IEnumerable<Ticket> GetTickets()
         {
             return _ticketRepository.GetAllTickets();
+        }
+
+        public IEnumerable<Ticket> GetTicketsByUserId(int userId)
+        {
+            //проверить юзера 
+            User user = _userRepository.GetUserById(userId);
+            if (user == null)
+            {
+                throw new Exception("Пользователя не существует!");
+            }
+            //достать тикеты по юзерИд
+            IEnumerable<Ticket> tickets = _ticketRepository.GetTicketsByUserId(userId);
+            //вернуть тикеты
+            return tickets;
         }
     }
 }

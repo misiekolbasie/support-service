@@ -34,7 +34,7 @@ namespace SupportService.Controllers
         [HttpGet("GetByUserId")]
         public async Task<IActionResult> GetTicketsByUserId(int userId) // Просмотр тикетов пользователя
         {
-            IEnumerable<Ticket> tickets = _ticketService.GetTicketsByUserId();
+            IEnumerable<Ticket> tickets = _ticketService.GetTicketsByUserId(userId);
             return Ok(tickets);
         }
 
