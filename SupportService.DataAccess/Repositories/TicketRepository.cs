@@ -6,6 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using SupportService.DataAccess.Repositories.Interfaces;
+using SupportService.Models.Enums;
 using SupportService.Models.Models;
 
 namespace SupportService.DataAccess.Repositories
@@ -48,6 +49,21 @@ namespace SupportService.DataAccess.Repositories
             }
             return userTickets;
             //вернуть лист
+        }
+
+        public void ChangeStatus(int ticketId, Statuses newStatus)
+        {
+            // обратиться в коллекцию тикетов, и найти тикет по ид
+            foreach (var ticket in _ticketsDb)
+            {
+                if (ticket.Id == ticketId)
+                {
+                    //поменять статус у тикета на новый
+                    ticket.Status = newStatus;
+                    break;
+                }
+            }
+            throw new Exception("Тикет не найден!");
         }
     }
 }

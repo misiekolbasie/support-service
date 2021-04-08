@@ -48,6 +48,7 @@ namespace SupportService.Controllers
         [HttpPost("ChangeStatus")]
         public async Task<IActionResult> ChangeTicketStatus(ChangeStatusRequest changeStatusRequest) // смена статуса тикета
         {
+            _ticketService.ChangeStatus(changeStatusRequest);
             return Ok();
         }
     }

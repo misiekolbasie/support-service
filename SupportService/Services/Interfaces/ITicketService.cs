@@ -10,5 +10,6 @@ namespace SupportService.Services.Interfaces
 
         IEnumerable<Ticket> GetTickets();
         IEnumerable<Ticket> GetTicketsByUserId(int userId);
+        void ChangeStatus(ChangeStatusRequest changeStatusRequest);
     }
 }

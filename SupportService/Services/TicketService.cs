@@ -80,5 +80,10 @@ namespace SupportService.Services
             //вернуть тикеты
             return tickets;
         }
+
+        public void ChangeStatus(ChangeStatusRequest changeStatusRequest)
+        {
+            _ticketRepository.ChangeStatus(changeStatusRequest.TicketId, changeStatusRequest.NewStatus);
+        }
     }
 }
