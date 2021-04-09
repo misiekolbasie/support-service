@@ -36,34 +36,34 @@ namespace SupportService.DataAccess.Repositories
 
         public IEnumerable<Ticket> GetTicketsByUserId(int userId)
         {
-            // создать пустой лист
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
             List<Ticket> userTickets = new List<Ticket>();
-            // обратиться в коллекцию тикетов, найти автор ид
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ
             foreach (var ticket in _ticketsDb)
             {
-                // если ид юзера равно ид автора записать их в пустой лист
+                // пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
                 if (ticket.AutorId == userId)
                 {
                     userTickets.Add(ticket);
                 }
             }
             return userTickets;
-            //вернуть лист
+            //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         }
 
         public void ChangeStatus(int ticketId, Statuses newStatus)
         {
-            // обратиться в коллекцию тикетов, и найти тикет по ид
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ
             foreach (var ticket in _ticketsDb)
             {
                 if (ticket.Id == ticketId)
                 {
-                    //поменять статус у тикета на новый
+                    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
                     ticket.Status = newStatus;
                     break;
                 }
             }
-            throw new Exception("Тикет не найден!");
+            throw new Exception("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ!");
         }
 
         public Ticket GetTicketById(int ticketId)
