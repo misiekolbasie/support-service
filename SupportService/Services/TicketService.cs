@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -65,7 +66,7 @@ namespace SupportService.Services
 
         public IEnumerable<Ticket> GetTickets()
         {
-            return _ticketRepository.GetAllTickets();
+            return _ticketRepository.GetAllTickets().OrderBy(c => c.LastUpdate).ToList();
         }
 
         public IEnumerable<Ticket> GetTicketsByUserId(int userId)
@@ -79,7 +80,7 @@ namespace SupportService.Services
             //достать тикеты по юзерИд
             IEnumerable<Ticket> tickets = _ticketRepository.GetTicketsByUserId(userId);
             //вернуть тикеты
-            return tickets;
+            return tickets.OrderBy(c => c.LastUpdate).ToList();
         }
 
         public void ChangeStatus(ChangeStatusRequest changeStatusRequest)

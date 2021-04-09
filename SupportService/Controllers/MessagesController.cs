@@ -20,8 +20,9 @@ namespace SupportService.Controllers
         private readonly ILogger<MessagesController> _logger;
         private readonly IMessageService _messageService;
 
-        public MessagesController(ILogger<MessagesController> logger)
+        public MessagesController(IMessageService messageService, ILogger<MessagesController> logger)
         {
+            _messageService = messageService;
             _logger = logger ?? new NullLogger<MessagesController>();
         }
 

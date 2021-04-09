@@ -8,7 +8,7 @@ using SupportService.Models.Models;
 
 namespace SupportService.Services.Interfaces
 {
-    interface IMessageService
+    public interface IMessageService
     {
         IEnumerable<Message> GetMessagesByTicketId(int ticketId);
         int CreateMessage(SendMessageRequest sendMessageRequest);

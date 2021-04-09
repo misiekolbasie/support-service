@@ -18,16 +18,18 @@ namespace SupportService.Services
         private readonly ITicketRepository _ticketRepository;
         private readonly IUserRepository _userRepository;
 
-        public MessageService(IMessageRepository messageRepository, ITicketRepository ticketRepository ,ILogger<MessageService> logger)
+        public MessageService(IMessageRepository messageRepository, ITicketRepository ticketRepository, IUserRepository userRepository,
+            ILogger<MessageService> logger)
         {
             _messageRepository = messageRepository;
             _ticketRepository = ticketRepository;
+            _userRepository = userRepository;
             _logger = logger ?? new NullLogger<MessageService>();
         }
 
         public IEnumerable<Message> GetMessagesByTicketId(int ticketId)
         {   // сделать проверку тикета
-           CheckTicket(ticketId);
+            CheckTicket(ticketId);
             // вызвать  imessage и вызвать у него метод вернуть мессаджи по тикет ид
             IEnumerable<Message> messages = _messageRepository.GetMessagesByTicketId(ticketId);
             return messages;
