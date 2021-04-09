@@ -65,5 +65,23 @@ namespace SupportService.DataAccess.Repositories
             }
             throw new Exception("Тикет не найден!");
         }
+
+        public Ticket GetTicketById(int ticketId)
+        {
+            foreach (var ticket in _ticketsDb)
+            {
+                if (ticket.Id == ticketId)
+                {
+                    return ticket;
+                }
+            }
+            return null;
+        }
+
+        public void ChangeLastUpdate(in int ticketId, in DateTime messageCreateDate)
+        {
+            Ticket ticket = GetTicketById(ticketId);
+
+        }
     }
 }

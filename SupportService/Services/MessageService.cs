@@ -16,6 +16,7 @@ namespace SupportService.Services
         private readonly ILogger<MessageService> _logger;
         private readonly IMessageRepository _messageRepository;
         private readonly ITicketRepository _ticketRepository;
+        private readonly IUserRepository _userRepository;
 
         public MessageService(IMessageRepository messageRepository, ITicketRepository ticketRepository ,ILogger<MessageService> logger)
         {
@@ -26,18 +27,17 @@ namespace SupportService.Services
 
         public IEnumerable<Message> GetMessagesByTicketId(int ticketId)
         {   // сделать проверку тикета
-            Ticket ticket = _ticketRepository.GetTicketById(ticketId);
-            if (ticket == null)
-            {
-                throw new Exception("Такого тикета нет!");
-            }
+           CheckTicket(ticketId);
             // вызвать  imessage и вызвать у него метод вернуть мессаджи по тикет ид
             IEnumerable<Message> messages = _messageRepository.GetMessagesByTicketId(ticketId);
             return messages;
         }
 
+
         public int CreateMessage(SendMessageRequest sendMessageRequest)
         {
+            CheckTicket(sendMessageRequest.TicketId);
+            CheckUser(sendMessageRequest.AutorId);
             Message message = new Message()
             {
                 AutorId = sendMessageRequest.AutorId, 
@@ -46,7 +46,25 @@ namespace SupportService.Services
                 CreateDate = DateTime.Now
             };
             int result = _messageRepository.CreateMessage(message);
+            _ticketRepository.ChangeLastUpdate(sendMessageRequest.TicketId, message.CreateDate);
             return result;
         }
+        private void CheckTicket(int checkTicketId)
+        {
+            Ticket ticket = _ticketRepository.GetTicketById(checkTicketId);
+            if (ticket == null)
+            {
+                throw new Exception("Такого тикета нет!");
+            }
+        }
+        private void CheckUser(int checkUserid)
+        {
+            User user = _userRepository.GetUserById(checkUserid);
+            if (user == null)
+            {
+                throw new Exception("Такого пользователя не существует!");
+            }
+        }
+
     }
 }
