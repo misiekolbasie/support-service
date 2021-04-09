@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using SupportService.ApiDto;
 using SupportService.DataAccess.Repositories.Interfaces;
 using SupportService.Models.Models;
 using SupportService.Services.Interfaces;
@@ -30,11 +31,22 @@ namespace SupportService.Services
             {
                 throw new Exception("Такого тикета нет!");
             }
-
+            // вызвать  imessage и вызвать у него метод вернуть мессаджи по тикет ид
             IEnumerable<Message> messages = _messageRepository.GetMessagesByTicketId(ticketId);
             return messages;
-            // вызвать  imessage и вызвать у него метод вернуть мессаджи по тикет ид
+        }
 
+        public int CreateMessage(SendMessageRequest sendMessageRequest)
+        {
+            Message message = new Message()
+            {
+                AutorId = sendMessageRequest.AutorId, 
+                Text = sendMessageRequest.MessageText,
+                TicketId = sendMessageRequest.TicketId,
+                CreateDate = DateTime.Now
+            };
+            int result = _messageRepository.CreateMessage(message);
+            return result;
         }
     }
 }

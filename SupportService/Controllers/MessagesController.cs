@@ -35,7 +35,8 @@ namespace SupportService.Controllers
         [HttpPost("Send")]
         public async Task<IActionResult> SendMessage(SendMessageRequest sendMessageRequest)
         {
-            return Ok();
+            int messageId = _messageService.CreateMessage(sendMessageRequest);
+            return Ok(messageId);
         }
     }
 }
