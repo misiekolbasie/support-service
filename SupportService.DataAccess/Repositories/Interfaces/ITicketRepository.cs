@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using SupportService.Models.Enums;
 using SupportService.Models.Models;
@@ -11,5 +12,6 @@ namespace SupportService.DataAccess.Repositories.Interfaces
         IEnumerable<Ticket> GetTicketsByUserId(int userId);
         void ChangeStatus(int ticketId, Statuses newStatus);
         Ticket GetTicketById(int ticketId);
+        void ChangeLastUpdate(in int ticketId, in DateTime lastUpdate);
     }
 }
