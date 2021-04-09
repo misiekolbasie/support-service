@@ -31,7 +31,8 @@ namespace SupportService.Services
 
         public int CreateTicket(CreateTicketRequest createTicketRequest)
         {
-            User user = _userRepository.GetUserById(createTicketRequest.UserId);
+            var userId = createTicketRequest.UserId;
+            User user = _userRepository.GetUserById(userId);
             if (user == null)
             {
                 throw new Exception("Пользователя не существует!");
