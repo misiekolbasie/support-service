@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using SupportService.DataAccess.Repositories.Interfaces;
@@ -21,6 +22,19 @@ namespace SupportService.DataAccess.Repositories
             message.Id = maxValue;
             _messagesDb.Add(message);
             return maxValue;
+        }
+
+        public IEnumerable<Message> GetMessagesByTicketId(in int ticketId)
+        {
+          List<Message> messages = new List<Message>();
+          foreach (var message in _messagesDb)
+          {
+              if (message.TicketId == ticketId)
+              {
+                  messages.Add(message);
+              }
+          }
+          return messages.OrderBy(c=>c.CreateDate).ToList(); //отсортирует все мессаджи по крейт дате.
         }
     }
 }

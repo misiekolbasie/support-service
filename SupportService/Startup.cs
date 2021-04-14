@@ -33,6 +33,7 @@ namespace SupportService
             services.AddSwaggerGen();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ITicketService, TicketService>();
+            services.AddTransient<IMessageService, MessageService>();
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<ITicketRepository, TicketRepository>();
             services.AddSingleton<IMessageRepository, MessageRepository>();
