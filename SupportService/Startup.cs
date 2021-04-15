@@ -36,9 +36,9 @@ namespace SupportService
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ITicketService, TicketService>();
             services.AddTransient<IMessageService, MessageService>();
-            services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ITicketRepository, TicketRepository>();
-            services.AddSingleton<IMessageRepository, MessageRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
             services.AddDbContext<SupportServiceDbContext>(options =>
                 options.UseNpgsql(@"Server = localhost; Port = 5432; Database = support_service_db; User Id = postgres; Password = 1qaz@WSX"));
         }

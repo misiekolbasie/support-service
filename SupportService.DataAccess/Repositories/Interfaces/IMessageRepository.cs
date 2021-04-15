@@ -7,6 +7,6 @@ namespace SupportService.DataAccess.Repositories.Interfaces
     public interface IMessageRepository
     {
         int CreateMessage(Message message);
-        IEnumerable<Message> GetMessagesByTicketId(in int ticketId);
+        IEnumerable<Message> GetMessagesByTicketId(int ticketId);
     }
 }

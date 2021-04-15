@@ -22,6 +22,7 @@ namespace SupportService.DataAccess.Repositories
             _ticketsDb = dbContext;
             _logger = logger ?? new NullLogger<TicketRepository>();
         }
+
         public int CreateTicket(Ticket ticket)
         {
             //ticket v ticket entity , pishem property
@@ -39,7 +40,6 @@ namespace SupportService.DataAccess.Repositories
             _ticketsDb.SaveChanges();// save base
             //return id
             return ticketEntity.Id;
-
         }
 
         public IEnumerable<Ticket> GetAllTickets()
@@ -56,8 +56,6 @@ namespace SupportService.DataAccess.Repositories
             // vernyt modely
             return tickets;
         }
-
-
 
         public IEnumerable<Ticket> GetTicketsByUserId(int userId)
         {
@@ -94,7 +92,7 @@ namespace SupportService.DataAccess.Repositories
         public Ticket GetTicketById(int ticketId)
         {
             // find ticket entity po id
-            TicketEntity entity = _ticketsDb.Tickets.FirstOrDefault(entity => entity.Id == ticketId); //entity - SYSCHESTVYET TOLKO V ETIX SKOBKAX => entity.Id == ticketId
+            TicketEntity entity = _ticketsDb.Tickets.FirstOrDefault(entity => entity.Id == ticketId);
             //proverka est' li entity voobshe
             if (entity == null)
             {
@@ -108,7 +106,7 @@ namespace SupportService.DataAccess.Repositories
         public void ChangeLastUpdate(int ticketId, DateTime lastUpdate)
         {
             // find ticket entity po id
-            TicketEntity entity = _ticketsDb.Tickets.FirstOrDefault(entity => entity.Id == ticketId); //entity - SYSCHESTVYET TOLKO V ETIX SKOBKAX => entity.Id == ticketId
+            TicketEntity entity = _ticketsDb.Tickets.FirstOrDefault(entity => entity.Id == ticketId);
             //proverka est' li entity voobshe
             if (entity == null)
             {
