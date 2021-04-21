@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using SupportService.DataAccess.Entities;
 using SupportService.DataAccess.Repositories.Interfaces;
+using SupportService.DataAccess.Translators;
 using SupportService.Models.Enums;
 using SupportService.Models.Models;
 
@@ -26,15 +27,7 @@ namespace SupportService.DataAccess.Repositories
         public int CreateTicket(Ticket ticket)
         {
             //ticket v ticket entity , pishem property
-            TicketEntity ticketEntity = new TicketEntity()
-            {
-                AutorId = ticket.AutorId,
-                Category = (int)ticket.Category, //upcast
-                CreateDate = ticket.CreateDate,
-                LastUpdate = ticket.LastUpdate,
-                Status = (int)ticket.Status,
-                Theme = ticket.Theme
-            };
+            TicketEntity ticketEntity = ticket.ToEntity();
             // save in base
             _dbContext.Tickets.Add(ticketEntity); //base.Tablica.add(object entity(stroka v bd))
             _dbContext.SaveChanges();// save base
@@ -44,33 +37,37 @@ namespace SupportService.DataAccess.Repositories
 
         public IEnumerable<Ticket> GetAllTickets()
         {
-            // go v bazy, vzyat vse etity ticketov
-            List<TicketEntity> ticketEntities = _dbContext.Tickets.ToList();
-            // entity prevratit v modely
-            List<Ticket> tickets = new List<Ticket>();
-            foreach (var entity in ticketEntities)
-            {
-                Ticket ticket = TicketEntityToModel(entity);
-                tickets.Add(ticket);
-            }
-            // vernyt modely
+            List<Ticket> tickets = _dbContext.Tickets.ToList().Select(c => c.ToModel()).ToList();
+            //// go v bazy, vzyat vse etity ticketov
+            //List<TicketEntity> ticketEntities = _dbContext.Tickets.ToList();
+            //// entity prevratit v modely
+            //List<Ticket> tickets = new List<Ticket>();
+            //foreach (var entity in ticketEntities)
+            //{
+            //    Ticket ticket = TicketEntityToModel(entity);
+            //    tickets.Add(ticket);
+            //}
+            //// vernyt modely
             return tickets;
         }
 
         public IEnumerable<Ticket> GetTicketsByUserId(int userId)
         {
-            // zaprosit vse entity 
-            List<TicketEntity> ticketEntities = _dbContext.Tickets.ToList();
-            List<Ticket> userTickets = new List<Ticket>();
-            foreach (var entity in ticketEntities)
-            {
-                Ticket ticket = TicketEntityToModel(entity);
-                // iz entity v ticket
-                if (ticket.AutorId == userId)
-                {
-                    userTickets.Add(ticket);
-                }
-            }
+            List<Ticket> userTickets = _dbContext.Tickets.Where(c => c.AutorId == userId).ToList()
+                .Select(c => c.ToModel())
+                .ToList();
+            //// zaprosit vse entity 
+            //List<TicketEntity> ticketEntities = _dbContext.Tickets.ToList();
+            //List<Ticket> userTickets = new List<Ticket>();
+            //foreach (var entity in ticketEntities)
+            //{
+            //    Ticket ticket = TicketEntityToModel(entity);
+            //    // iz entity v ticket
+            //    if (ticket.AutorId == userId)
+            //    {
+            //        userTickets.Add(ticket);
+            //    }
+            //}
             return userTickets;
         }
 
@@ -99,7 +96,7 @@ namespace SupportService.DataAccess.Repositories
                 return null;
             }
             // preobrazovanie iz entity v model
-            Ticket ticket = TicketEntityToModel(entity);
+            Ticket ticket = entity.ToModel();
             return ticket;
         }
 
@@ -115,21 +112,6 @@ namespace SupportService.DataAccess.Repositories
             // novoe vremya i save in base
             entity.LastUpdate = lastUpdate;
             _dbContext.SaveChanges();
-        }
-
-        private Ticket TicketEntityToModel(TicketEntity entity)
-        {
-            Ticket ticket = new Ticket()
-            {
-                Id =  entity.Id,
-                AutorId = entity.AutorId,
-                Category = (Categories)entity.Category,
-                CreateDate = entity.CreateDate,
-                LastUpdate = entity.LastUpdate,
-                Status = (Statuses)entity.Status,
-                Theme = entity.Theme
-            };
-            return ticket;
         }
     }
 }

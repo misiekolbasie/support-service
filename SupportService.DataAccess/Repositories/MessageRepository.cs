@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using SupportService.DataAccess.Entities;
 using SupportService.DataAccess.Repositories.Interfaces;
+using SupportService.DataAccess.Translators;
 using SupportService.Models.Models;
 
 namespace SupportService.DataAccess.Repositories
@@ -22,13 +23,7 @@ namespace SupportService.DataAccess.Repositories
         public int CreateMessage(Message message)
         {
             //mesage c message entity , pishem property
-            MessageEntity messageEntity = new MessageEntity()
-            {
-                AutorId = message.AutorId,
-                CreateDate = message.CreateDate,
-                Text = message.Text,
-                TicketId = message.TicketId
-            };
+            MessageEntity messageEntity = message.ToEntity();
             //save in base
             _dbContext.Messages.Add(messageEntity); //base.Tablica.add(object entity(stroka v bd))
             _dbContext.SaveChanges();
@@ -38,32 +33,23 @@ namespace SupportService.DataAccess.Repositories
 
         public IEnumerable<Message> GetMessagesByTicketId(int ticketId)
         {
-            // zaprosit vse entity 
-            List<MessageEntity> messageEntities = _dbContext.Messages.ToList();
-            List<Message> ticketMessages = new List<Message>();
-            foreach (var entity in messageEntities)
-            {
-                Message message = MessageEntityToModel(entity);
-                if (message.TicketId == ticketId)
-                {
-                    ticketMessages.Add(message);
-                }
-            }
+            List<Message> ticketMessages = _dbContext.Messages.Where(c => c.TicketId == ticketId)
+                .OrderBy(c => c.CreateDate)
+                .ToList()
+                .Select(c => c.ToModel())
+                .ToList();
+            //// zaprosit vse entity 
+            //List<MessageEntity> messageEntities = _dbContext.Messages.ToList();
+            //List<Message> ticketMessages = new List<Message>();
+            //foreach (var entity in messageEntities)
+            //{
+            //    Message message = MessageEntityToModel(entity);
+            //    if (message.TicketId == ticketId)
+            //    {
+            //        ticketMessages.Add(message);
+            //    }
+            //}
             return ticketMessages.OrderBy(c => c.CreateDate).ToList(); //отсортирует все мессаджи по крейт дате.
         }
-
-        private Message MessageEntityToModel(MessageEntity entity)
-        {
-            Message message = new Message()
-            {
-                Id = entity.Id,
-                AutorId = entity.AutorId,
-                CreateDate = entity.CreateDate,
-                Text = entity.Text,
-                TicketId = entity.TicketId,
-            };
-            return message;
-        }
-
     }
 }
