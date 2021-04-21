@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.31105.61
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupportService", "SupportService\SupportService.csproj", "{3EBCFE2B-65C6-48A3-A7D3-AF57FDE98347}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupportService.Models", "SupportService.Models\SupportService.Models.csproj", "{460B440F-8A39-4C91-96DE-535B87114F27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupportService.Models", "SupportService.Models\SupportService.Models.csproj", "{460B440F-8A39-4C91-96DE-535B87114F27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupportService.DataAccess", "SupportService.DataAccess\SupportService.DataAccess.csproj", "{7FC9E1AD-1ADF-4D51-9405-C050BA1E4001}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SupportService.DataAccess", "SupportService.DataAccess\SupportService.DataAccess.csproj", "{7FC9E1AD-1ADF-4D51-9405-C050BA1E4001}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupportService.Tests", "SupportService.Tests\SupportService.Tests.csproj", "{48B1F112-FD2C-426F-B0ED-8E471A29A956}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{7FC9E1AD-1ADF-4D51-9405-C050BA1E4001}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FC9E1AD-1ADF-4D51-9405-C050BA1E4001}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FC9E1AD-1ADF-4D51-9405-C050BA1E4001}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48B1F112-FD2C-426F-B0ED-8E471A29A956}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48B1F112-FD2C-426F-B0ED-8E471A29A956}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48B1F112-FD2C-426F-B0ED-8E471A29A956}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48B1F112-FD2C-426F-B0ED-8E471A29A956}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
