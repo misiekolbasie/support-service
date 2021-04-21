@@ -11,11 +11,11 @@ namespace SupportService.DataAccess.Repositories
     public class MessageRepository : IMessageRepository
     {
         private readonly ILogger<MessageRepository> _logger;
-        private readonly SupportServiceDbContext _messageDb;
+        private readonly SupportServiceDbContext _dbContext;
 
         public MessageRepository(SupportServiceDbContext dbContext, ILogger<MessageRepository> logger)
         {
-            dbContext = _messageDb;
+            _dbContext = dbContext;
             _logger = logger ?? new NullLogger<MessageRepository>();
         }
 
@@ -30,8 +30,8 @@ namespace SupportService.DataAccess.Repositories
                 TicketId = message.TicketId
             };
             //save in base
-            _messageDb.Messages.Add(messageEntity); //base.Tablica.add(object entity(stroka v bd))
-            _messageDb.SaveChanges();
+            _dbContext.Messages.Add(messageEntity); //base.Tablica.add(object entity(stroka v bd))
+            _dbContext.SaveChanges();
             //return id
             return messageEntity.Id;
         }
@@ -39,12 +39,12 @@ namespace SupportService.DataAccess.Repositories
         public IEnumerable<Message> GetMessagesByTicketId(int ticketId)
         {
             // zaprosit vse entity 
-            List<MessageEntity> messageEntities = _messageDb.Messages.ToList();
+            List<MessageEntity> messageEntities = _dbContext.Messages.ToList();
             List<Message> ticketMessages = new List<Message>();
             foreach (var entity in messageEntities)
             {
                 Message message = MessageEntityToModel(entity);
-                if (message.AutorId == ticketId)
+                if (message.TicketId == ticketId)
                 {
                     ticketMessages.Add(message);
                 }
@@ -56,10 +56,11 @@ namespace SupportService.DataAccess.Repositories
         {
             Message message = new Message()
             {
+                Id = entity.Id,
                 AutorId = entity.AutorId,
                 CreateDate = entity.CreateDate,
                 Text = entity.Text,
-                TicketId = entity.TicketId
+                TicketId = entity.TicketId,
             };
             return message;
         }

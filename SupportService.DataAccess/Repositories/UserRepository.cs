@@ -13,12 +13,12 @@ namespace SupportService.DataAccess.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly ILogger<UserRepository> _logger;
-        private readonly SupportServiceDbContext _usersDb;
+        private readonly SupportServiceDbContext _dbContext;
         
         
-        public UserRepository(SupportServiceDbContext dbContext, ILogger<UserRepository> logger)
+        public UserRepository(SupportServiceDbContext dbContextContext, ILogger<UserRepository> logger)
         {
-            _usersDb = dbContext;
+            _dbContext = dbContextContext;
             _logger = logger;
         }
 
@@ -30,18 +30,15 @@ namespace SupportService.DataAccess.Repositories
                 Role = (int)user.Role
             };
             //save in base
-            _usersDb.Users.Add(userEntity);
-            _usersDb.SaveChanges();
+            _dbContext.Users.Add(userEntity);
+            _dbContext.SaveChanges();
             return userEntity.Id;
-            //if (!ValidateUser(user))
-            //{
-            //   throw new Exception("Такой пользователь уже существует!");
-            //}
         }
+
         public User GetUserById(int userid)
         {
             // find ticket entity po id
-            UserEntity entity = _usersDb.Users.FirstOrDefault(c => c.Id == userid);
+            UserEntity entity = _dbContext.Users.FirstOrDefault(c => c.Id == userid);
             //proverka est' li entity voobshe
             if (entity == null)
             {
@@ -51,21 +48,12 @@ namespace SupportService.DataAccess.Repositories
             User user = UserEntityToModel(entity);
             return user;
         }
-        //private bool ValidateUser(User user)
-        //{
-        //    foreach (var userDB  in _usersDB)
-        //    {
-        //        if (user.Name == userDB.Name)
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //    return true;
-        //}
+
         private User UserEntityToModel(UserEntity entity)
         {
             User user = new User()
             {
+                Id = entity.Id,
                 Name = entity.Name,
                 Role = (Roles)entity.Role
             };

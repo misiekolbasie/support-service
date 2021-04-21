@@ -15,11 +15,11 @@ namespace SupportService.DataAccess.Repositories
     public class TicketRepository : ITicketRepository
     {
         private readonly ILogger<TicketRepository> _logger;
-        private readonly SupportServiceDbContext _ticketsDb;
+        private readonly SupportServiceDbContext _dbContext;
 
-        public TicketRepository(SupportServiceDbContext dbContext, ILogger<TicketRepository> logger)
+        public TicketRepository(SupportServiceDbContext dbContextContext, ILogger<TicketRepository> logger)
         {
-            _ticketsDb = dbContext;
+            _dbContext = dbContextContext;
             _logger = logger ?? new NullLogger<TicketRepository>();
         }
 
@@ -36,8 +36,8 @@ namespace SupportService.DataAccess.Repositories
                 Theme = ticket.Theme
             };
             // save in base
-            _ticketsDb.Tickets.Add(ticketEntity); //base.Tablica.add(object entity(stroka v bd))
-            _ticketsDb.SaveChanges();// save base
+            _dbContext.Tickets.Add(ticketEntity); //base.Tablica.add(object entity(stroka v bd))
+            _dbContext.SaveChanges();// save base
             //return id
             return ticketEntity.Id;
         }
@@ -45,7 +45,7 @@ namespace SupportService.DataAccess.Repositories
         public IEnumerable<Ticket> GetAllTickets()
         {
             // go v bazy, vzyat vse etity ticketov
-            List<TicketEntity> ticketEntities = _ticketsDb.Tickets.ToList();
+            List<TicketEntity> ticketEntities = _dbContext.Tickets.ToList();
             // entity prevratit v modely
             List<Ticket> tickets = new List<Ticket>();
             foreach (var entity in ticketEntities)
@@ -60,7 +60,7 @@ namespace SupportService.DataAccess.Repositories
         public IEnumerable<Ticket> GetTicketsByUserId(int userId)
         {
             // zaprosit vse entity 
-            List<TicketEntity> ticketEntities = _ticketsDb.Tickets.ToList();
+            List<TicketEntity> ticketEntities = _dbContext.Tickets.ToList();
             List<Ticket> userTickets = new List<Ticket>();
             foreach (var entity in ticketEntities)
             {
@@ -77,7 +77,7 @@ namespace SupportService.DataAccess.Repositories
         public void ChangeStatus(int ticketId, Statuses newStatus)
         {
             // find ticket entity po id
-            TicketEntity entity = _ticketsDb.Tickets.FirstOrDefault(entity => entity.Id == ticketId); //entity - SYSCHESTVYET TOLKO V ETIX SKOBKAX => entity.Id == ticketId
+            TicketEntity entity = _dbContext.Tickets.FirstOrDefault(entity => entity.Id == ticketId); //entity - SYSCHESTVYET TOLKO V ETIX SKOBKAX => entity.Id == ticketId
             //proverka est' li entity voobshe
             if (entity == null)
             {
@@ -86,13 +86,13 @@ namespace SupportService.DataAccess.Repositories
             // pomenyat status
             entity.Status = (int)newStatus;
             //save BASE
-            _ticketsDb.SaveChanges();
+            _dbContext.SaveChanges();
         }
 
         public Ticket GetTicketById(int ticketId)
         {
             // find ticket entity po id
-            TicketEntity entity = _ticketsDb.Tickets.FirstOrDefault(entity => entity.Id == ticketId);
+            TicketEntity entity = _dbContext.Tickets.FirstOrDefault(entity => entity.Id == ticketId);
             //proverka est' li entity voobshe
             if (entity == null)
             {
@@ -106,7 +106,7 @@ namespace SupportService.DataAccess.Repositories
         public void ChangeLastUpdate(int ticketId, DateTime lastUpdate)
         {
             // find ticket entity po id
-            TicketEntity entity = _ticketsDb.Tickets.FirstOrDefault(entity => entity.Id == ticketId);
+            TicketEntity entity = _dbContext.Tickets.FirstOrDefault(entity => entity.Id == ticketId);
             //proverka est' li entity voobshe
             if (entity == null)
             {
@@ -114,13 +114,14 @@ namespace SupportService.DataAccess.Repositories
             }
             // novoe vremya i save in base
             entity.LastUpdate = lastUpdate;
-            _ticketsDb.SaveChanges();
+            _dbContext.SaveChanges();
         }
 
         private Ticket TicketEntityToModel(TicketEntity entity)
         {
             Ticket ticket = new Ticket()
             {
+                Id =  entity.Id,
                 AutorId = entity.AutorId,
                 Category = (Categories)entity.Category,
                 CreateDate = entity.CreateDate,
