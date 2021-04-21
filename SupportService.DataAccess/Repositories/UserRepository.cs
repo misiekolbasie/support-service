@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
+using SupportService.DataAccess.Entities;
 using SupportService.DataAccess.Repositories.Interfaces;
+using SupportService.DataAccess.Translators;
+using SupportService.Models.Enums;
 using SupportService.Models.Models;
 
 namespace SupportService.DataAccess.Repositories
@@ -11,50 +14,36 @@ namespace SupportService.DataAccess.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly ILogger<UserRepository> _logger;
-        private readonly List<User> _usersDB = new List<User>();
+        private readonly SupportServiceDbContext _dbContext;
         
         
-        public UserRepository(ILogger<UserRepository> logger)
+        public UserRepository(SupportServiceDbContext dbContextContext, ILogger<UserRepository> logger)
         {
+            _dbContext = dbContextContext;
             _logger = logger;
         }
 
         public int CreateUser(User user)
         {
-            if (!ValidateUser(user))
-            {
-               throw new Exception("Такой пользователь уже существует!");
-            }
-            
-            int maxCount = _usersDB.Count;
-            user.Id = maxCount;
-            _usersDB.Add(user);
-            return maxCount;
+            UserEntity userEntity = user.ToEntity();
+            //save in base
+            _dbContext.Users.Add(userEntity);
+            _dbContext.SaveChanges();
+            return userEntity.Id;
         }
 
-        public User GetUserById(int id)
+        public User GetUserById(int userid)
         {
-            //пройти по коллекции юзеров и вернуть юзера по ид
-            foreach (var user in _usersDB)
+            // find ticket entity po id
+            UserEntity entity = _dbContext.Users.FirstOrDefault(c => c.Id == userid);
+            //proverka est' li entity voobshe
+            if (entity == null)
             {
-                if (user.Id == id)
-                {
-                    return user;
-                }   
+                return null;
             }
-            return null;
-        }
-
-        private bool ValidateUser(User user)
-        {
-            foreach (var userDB  in _usersDB)
-            {
-                if (user.Name == userDB.Name)
-                {
-                    return false;
-                }
-            }
-            return true;
+            // preobrazovanie iz entity v model
+            User user = entity.ToModel();
+            return user;
         }
     }
 }

@@ -14,6 +14,8 @@ using SupportService.DataAccess.Repositories;
 using SupportService.DataAccess.Repositories.Interfaces;
 using SupportService.Services;
 using SupportService.Services.Interfaces;
+using SupportService.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace SupportService
 {
@@ -34,9 +36,11 @@ namespace SupportService
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ITicketService, TicketService>();
             services.AddTransient<IMessageService, MessageService>();
-            services.AddSingleton<IUserRepository, UserRepository>();
-            services.AddSingleton<ITicketRepository, TicketRepository>();
-            services.AddSingleton<IMessageRepository, MessageRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ITicketRepository, TicketRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
+            services.AddDbContext<SupportServiceDbContext>(options =>
+                options.UseNpgsql(@"Server = localhost; Port = 5432; Database = support_service_db; User Id = postgres; Password = 1qaz@WSX"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
