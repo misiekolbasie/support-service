@@ -19,7 +19,7 @@ namespace SupportService.Tests.DataAccessTests.TranslatorsTests
                 Name = "stroka"
             };
            
-            User user = entity.ToModel(); // 2 - основное действие
+            User user = entity.ToModel(); // 2 - основное действие MOCK, Assert, Faker
           
             // 3 - проверить результат
             user.Should().NotBeNull();
